@@ -14,6 +14,9 @@
     "dev": "nodemon src/server.js"
   },
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "youch": "^2.0.10"
   }
 }
