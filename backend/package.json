@@ -12,5 +12,8 @@
   },
   "scripts": {
     "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
   }
 }
