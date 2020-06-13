@@ -33,8 +33,16 @@ module.exports = {
           allowNull: true
         },
         zip_code: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING,
           allowNull: true
+        },
+        created_at: {
+          type: Sequelize.DATE,
+          allowNull: false
+        },
+        updated_at: {
+          type: Sequelize.DATE,
+          allowNull: false
         }
       });
 
