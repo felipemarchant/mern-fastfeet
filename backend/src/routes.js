@@ -5,7 +5,7 @@ import RecipientController  from './app/controllers/AuthController';
 
 const routes = new Router();
 
-routes.post('/auth', AuthController.auth);
+routes.post('/auth', AuthController.store);
 
 routes.get('/recipients', RecipientController.index);
 routes.post('/recipients', RecipientController.store);
