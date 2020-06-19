@@ -11,7 +11,6 @@ export default class Recipient extends Model {
             city: Sequelize.STRING,
             zip_code: Sequelize.NUMBER
         }, { sequelize });
-        return this;
     }
 }
 
