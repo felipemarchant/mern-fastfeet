@@ -6,9 +6,7 @@ import { Op } from 'sequelize';
 class DeliverymanController {
     async index(req, res) {
         const deliverymen = await Deliveryman.findAll({
-            attributes: {
-                exclude: ['avatar_id']
-            },
+            attributes: { exclude: ['avatar_id'] },
             include: [ { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] } ]
         });
         return res.json(deliverymen);
@@ -32,9 +30,7 @@ class DeliverymanController {
 
     async show(req, res) {
         const deliveryman = await Deliveryman.findByPk(req.params.deliveryman, {
-            attributes: {
-                exclude: ['avatar_id']
-            },
+            attributes: { exclude: ['avatar_id'] },
             include: [ { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] } ]
         });
         if (!deliveryman) res.status(204).json();
@@ -56,12 +52,8 @@ class DeliverymanController {
         if (existsDeliveryman) return res.status(400).json({ error: 'E-mail already exists!' });
         await deliveryman.update(req.body);
         let deliverymanUpdated = await Deliveryman.findByPk(req.params.deliveryman, {
-            attributes: {
-                exclude: ['avatar_id']
-            },
-            include: [
-                { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] }
-            ]
+            attributes: { exclude: ['avatar_id'] },
+            include: [ { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] } ]
         });
         return res.json(deliverymanUpdated);
     }
