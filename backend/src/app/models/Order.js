@@ -6,6 +6,7 @@ export default class Order extends Model {
             name: Sequelize.STRING,
             email: Sequelize.STRING, 
         }, { sequelize });
+        return this;
     }
 
     static associate(models) {

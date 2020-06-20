@@ -5,7 +5,8 @@ export default class Deliveryman extends Model {
         super.init({
             name: Sequelize.STRING,
             email: Sequelize.STRING, 
-        }, { sequelize });
+        }, { sequelize, tableName: 'deliverymen' });
+        return this;
     }
 
     static associate(models) {
