@@ -5,7 +5,12 @@ import { Op } from 'sequelize';
 
 class DeliverymanController {
     async index(req, res) {
-        const deliverymen = await Deliveryman.findAll();
+        const deliverymen = await Deliveryman.findAll({
+            attributes: {
+                exclude: ['avatar_id']
+            },
+            include: [ { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] } ]
+        });
         return res.json(deliverymen);
     }
 
@@ -18,9 +23,7 @@ class DeliverymanController {
             return res.status(400).json({ error: 'Validation fails' });
         const { email } = req.body;
         const existsDeliveryman = await Deliveryman.findOne({ where: { email } }, {
-            include: [
-                { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] }
-            ]
+            include: [ { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] } ]
         });
         if (existsDeliveryman) return res.status(400).json({ error: 'E-mail already exists!' });
         const deliveryman = await Deliveryman.create(req.body);
@@ -29,13 +32,13 @@ class DeliverymanController {
 
     async show(req, res) {
         const deliveryman = await Deliveryman.findByPk(req.params.deliveryman, {
-            include: [
-                { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] }
-            ]
+            attributes: {
+                exclude: ['avatar_id']
+            },
+            include: [ { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] } ]
         });
         if (!deliveryman) res.status(204).json();
-        const { id, name, email, createdAt, updatedAt, avatar } = deliveryman;
-        return res.json({ id, name, email, created_at, updated_at, avatar });
+        return res.json(deliveryman);
     }
 
     async update(req, res) {
@@ -47,16 +50,20 @@ class DeliverymanController {
             return res.status(400).json({ error: 'Validation fails' });
         const { email } = req.body;
         const id = req.params.deliveryman;
-        let deliveryman = await Deliveryman.findByPk(req.params.deliveryman, {
+        let deliveryman = await Deliveryman.findByPk(req.params.deliveryman, { attributes: ['id'] });
+        if (!deliveryman) return res.status(204).json();
+        const existsDeliveryman = await Deliveryman.findOne({ where: { email, id : { [Op.not]: id }} });
+        if (existsDeliveryman) return res.status(400).json({ error: 'E-mail already exists!' });
+        await deliveryman.update(req.body);
+        let deliverymanUpdated = await Deliveryman.findByPk(req.params.deliveryman, {
+            attributes: {
+                exclude: ['avatar_id']
+            },
             include: [
                 { model: File, as: 'avatar', attributes: ['id', 'url', 'path'] }
             ]
         });
-        if (!deliveryman) return res.status(204).json();
-        const existsDeliveryman = await Deliveryman.findOne({ where: { email, id : { [Op.not]: id }} });
-        if (existsDeliveryman) return res.status(400).json({ error: 'E-mail already exists!' });
-        deliveryman = await deliveryman.update(req.body);
-        return res.json(deliveryman);
+        return res.json(deliverymanUpdated);
     }
 
     async delete(req, res) {
