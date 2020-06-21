@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 import Order from '../models/Order';
 import Deliveryman from '../models/Deliveryman';
 import Files from '../models/Files';
@@ -11,6 +13,13 @@ class OrderController {
     }
 
     async store(req, res) {
+        const schema = Yup.object().shape({
+            recipient_id: Yup.number().required(),
+            deliveryman_id: Yup.number().required(),
+            product: Yup.string().required()
+        });
+        if (!(await schema.isValid(req.body))) 
+            return res.status(400).json({ error: 'Validation fails' });
         const start_date = new Date();
         const order = await Order.create({...req.body, start_date});
         res.json(order);
@@ -22,6 +31,14 @@ class OrderController {
     }
 
     async update(req, res) {
+        const schema = Yup.object().shape({
+            recipient_id: Yup.number(),
+            deliveryman_id: Yup.number(),
+            product: Yup.string(),
+            signature_id: Yup.number()
+        });
+        if (!(await schema.isValid(req.body))) 
+            return res.status(400).json({ error: 'Validation fails' });
         const id = req.params.order;
         let order = await Order.findByPk(id, { attributes: ['id'] });
         if (!order) return res.status(204).json();
