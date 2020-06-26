@@ -18,13 +18,12 @@ class OrderController {
             deliveryman_id: Yup.number().required(),
             product: Yup.string().required()
         });
-        if (!(await schema.isValid(req.body))) 
+        if (!(await schema.isValid(req.body)))
             return res.status(400).json({ error: 'Validation fails' });
-        const start_date = new Date();
-        const order = await Order.create({...req.body, start_date});
+        const order = await Order.create({ ...req.body });
         res.json(order);
     }
-    
+
     async show(req, res) {
         const order = await Order.findByPk(req.params.order, select);
         res.json(order);
@@ -37,7 +36,7 @@ class OrderController {
             product: Yup.string(),
             signature_id: Yup.number()
         });
-        if (!(await schema.isValid(req.body))) 
+        if (!(await schema.isValid(req.body)))
             return res.status(400).json({ error: 'Validation fails' });
         const id = req.params.order;
         let order = await Order.findByPk(id, { attributes: ['id'] });
@@ -61,8 +60,8 @@ const select = {
         exclude: ['recipient_id', 'deliveryman_id', 'signature_id']
     },
     include: [
-        { 
-            model: Deliveryman, 
+        {
+            model: Deliveryman,
             as: 'deliveryman',
             attributes: { exclude: ['avatar_id'] },
             include: [{ model: Files, as: 'avatar', attributes: ['url', 'id', 'path'] }]

@@ -1,2 +1,4 @@
 node_modules
-database.txt
+.env
+.env.prod
+TODO
