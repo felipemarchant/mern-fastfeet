@@ -33,10 +33,11 @@ routes.get('/deliverymen/:deliveryman/deliveries', DeliveryController.index);
 routes.get('/deliverymen/:deliveryman/deliveries/:delivery/delivered', DeliveryController.delivered);
 routes.put('/deliverymen/:deliveryman/deliveries/:delivery', DeliveryController.update);
 
-//routes.get('deliveries/:delivery/problems', ProblemController.index);
+routes.get('/deliveries/problems', ProblemController.index);
+routes.get('/deliveries/:delivery/problems', ProblemController.show);
 routes.post('/deliveries/:delivery/problems', ProblemController.store);
 
-routes.post('/deliveries/:delivery/problems', ProblemController.index);
+routes.delete('/problems/:problem/cancel-delivery', ProblemController.cancel);
 
 routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
