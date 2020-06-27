@@ -29,6 +29,8 @@ routes.put('/deliverymen/:deliveryman', DeliverymanController.update);
 routes.delete('/deliverymen/:deliveryman', DeliverymanController.delete);
 
 routes.get('/deliverymen/:deliveryman/deliveries', DeliveryController.index);
+routes.get('/deliverymen/:deliveryman/deliveries/:delivery/delivered', DeliveryController.delivered);
+routes.put('/deliverymen/:deliveryman/deliveries/:delivery', DeliveryController.update);
 
 routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
