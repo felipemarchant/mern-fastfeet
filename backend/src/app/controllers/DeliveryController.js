@@ -9,13 +9,13 @@ class DeliveryController {
     }
 
     async update(req, res) {
-        const { deliveryman: deliveryman_id } = req.params;
+        const { deliveryman: deliveryman_id, delivery: id } = req.params;
         const { start_date, end_date } = req.body;
-        const orders = await Order.findAll({ where: { deliveryman_id, canceled_at: null } });
+        const order = await Order.findOne({ where: { id, deliveryman_id, canceled_at: null } });
         let data = start_date ? { start_date: new Date() } : {};
         data = end_date ? { ...data, end_date: new Date() } : data;
-        orders.update(data);
-        return res.json(orders);
+        await order.update(data);
+        return res.json(order);
     }
 
     async delivered(req, res) {
