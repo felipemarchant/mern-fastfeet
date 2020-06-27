@@ -5,10 +5,11 @@ import Recipient from '../app/models/Recipient';
 import File from '../app/models/Files';
 import Deliveryman from '../app/models/Deliveryman';
 import Order from '../app/models/Order';
+import Problem from '../app/models/Problems';
 
 import config from '../config/database';
 
-const models = [User, Recipient, File, Deliveryman, Order];
+const models = [User, Recipient, File, Deliveryman, Order, Problem];
 
 class Database {
     constructor() {
@@ -18,7 +19,7 @@ class Database {
     init() {
         this.connection = new Sequelize(config);
         models.map(model => model.init(this.connection))
-              .map(model => model.associate && model.associate(this.connection.models))
+            .map(model => model.associate && model.associate(this.connection.models))
     }
 }
 

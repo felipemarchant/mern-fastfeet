@@ -7,6 +7,7 @@ import DeliverymanController from './app/controllers/DeliverymanController';
 import FileController from './app/controllers/FileController';
 import OrderController from './app/controllers/OrderController';
 import DeliveryController from './app/controllers/DeliveryController';
+import ProblemController from './app/controllers/ProblemController';
 
 import auth from './app/middlewares/auth';
 import multerConfig from './config/multer';
@@ -31,6 +32,11 @@ routes.delete('/deliverymen/:deliveryman', DeliverymanController.delete);
 routes.get('/deliverymen/:deliveryman/deliveries', DeliveryController.index);
 routes.get('/deliverymen/:deliveryman/deliveries/:delivery/delivered', DeliveryController.delivered);
 routes.put('/deliverymen/:deliveryman/deliveries/:delivery', DeliveryController.update);
+
+//routes.get('deliveries/:delivery/problems', ProblemController.index);
+routes.post('/deliveries/:delivery/problems', ProblemController.store);
+
+routes.post('/deliveries/:delivery/problems', ProblemController.index);
 
 routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
